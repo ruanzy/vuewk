@@ -1,5 +1,5 @@
 {
-  "name": "wk",
+  "name": "vuewk",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "webpack"
   },
-  "author": "",
+  "author": "ruanzy",
   "license": "ISC",
   "dependencies": {
     "vue": "^2.4.4",
