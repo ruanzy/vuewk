@@ -5,8 +5,8 @@
           <li>分析任务</li>
         </ul>
         <div class="p20">
-          <p><button class="btn btn-primary" @click='add'>增加</button></p>
-		  <p><button class="btn btn-primary" @click='add2'>增加2</button></p>
+          <p><button class="btn btn-primary" @click='add'>ALert</button></p>
+		  <p><button class="btn btn-primary" @click='add2'>Confirm</button></p>
 		  <h4 slot="header">数据列表</h4>
 		  			  <div slot="body"  style="padding: 20px 30px;">	  
 				<v-table
@@ -25,21 +25,6 @@
 				  <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="50" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']"></v-pagination>
 			  </p>
 			  </div>
-			<modal :show.sync="showModal" :options.sync="options">
-
-			  
-			  <div slot="footer">	 
-				<button class="btn btn-primary"
-              @click="ok">
-              确定
-            </button>
-			            <button class="btn btn-primary"
-              @click="close">
-              关闭
-            </button>
-			 </div> 
-			</modal>
-			<alert :show.sync="showAlert" :options.sync="options" @callback="alertCallback"></alert>
 		</div>
     </div>
 </template>
@@ -47,10 +32,8 @@
 <script>
 import Vue from 'vue'
 import mockData from './tableData.js'
-import modal from '../components/dialog.vue'
-import alert from '../components/alert.vue'
+import '../components/box.js'
 export default {
-  components: { modal, alert },
   data () {
     return {
       showAlert: false,
@@ -82,13 +65,21 @@ export default {
     this.tableConfig.tableData = mockData
   },
   methods: {
-    add () {
-      var o = {'name': '韩伟', 'img': '1.jpg', 'gender': '女', 'nickname': '韩', 'birthday': '1993-12-7', 'height': '166', 'email': 'han@gmail.com', 'tel': '177*****2222', 'hobby': '钢琴、书法、唱歌', 'address': '上海市浦东新区东方路818号建行一楼', 'job': '码农'}
-      this.tableConfig.tableData.push(o)
-	  this.showModal = true
-    },
     add2 () {
-	  this.showAlert = true
+      //var o = {'name': '韩伟', 'img': '1.jpg', 'gender': '女', 'nickname': '韩', 'birthday': '1993-12-7', 'height': '166', 'email': 'han@gmail.com', 'tel': '177*****2222', 'hobby': '钢琴、书法、唱歌', 'address': '上海市浦东新区东方路818号建行一楼', 'job': '码农'}
+      //this.tableConfig.tableData.push(o)
+	  this.$Modal.confirm('确定要删除数据吗!', function(v){
+		if(v){
+			alert('ok')
+		}else{
+			alert('no')
+		}
+	  })
+    },
+    add () {
+	  this.$Modal.alert2('请选择一个数据!', function(){
+		var dd = document.getElementById('kkk')
+	  })
     },
     ok () {
       alert('asdd')
@@ -121,13 +112,13 @@ Vue.component('table-operation', {
   },
   methods: {
     update () {
-      alert('编辑: ' + this.index)
+      this.$Modal.alert2('编辑: ' + this.index)
       console.log(this.index)
       console.log(this.rowData[this.field])
       console.log(this.rowData)
     },
     deleteRow () {
-      alert('删除: ' + this.index)
+      this.$Modal.alert2('删除: ' + this.index)
       console.log(this.index)
       console.log(this.rowData[this.field])
       console.log(this.rowData)

@@ -3,16 +3,16 @@
     <div class="modal-wrapper">
       <div class="modal-container" v-bind:style="w">
         <div class="modal-header">
+			<a class="close modal-close" @click="options.close">×</a>
 			<h4>{{options.title}}</h4>
         </div>
-        <div class="modal-body" v-bind:style="h">
-			{{options.content}}
+        <div class="modal-body" v-bind:style="h" v-html="options.content">
+			
         </div>
-
         <div class="modal-footer">
-		    <button class="btn btn-primary"
-              @click="callback">
-              确定
+		    <button class="btn btn-primary" v-for="btn in options.buttons"
+              @click="btn.action">
+              {{btn.text}}
             </button>
           </slot>
         </div>
@@ -28,11 +28,6 @@ export default {
       type: Object,
       required: true,
       twoWay: true
-    },
-    show: {
-      type: Boolean,
-      required: true,
-      twoWay: true
     }
   },
   data () {
@@ -43,8 +38,8 @@ export default {
     w () {
       return (this.options.width === null) ? '' : 'width:' + this.options.width + 'px;';
     },
-    show2: function() {
-      return this.show;
+    h: function() {
+      return (this.options.heigt === null) ? '' : 'heigt:' + this.options.heigt + 'px;';
     }
   },
   methods: {
@@ -88,26 +83,48 @@ export default {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1), 0 0 256px rgba(255, 255, 255, .3);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  color: #777777;
 }
 .modal-header {
 	padding: .7em;
     position: relative;
     white-space: nowrap;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 0px solid #ccc;
 	}
 
 .modal-header h4 {
   color: #42b983;
   margin: 0;
+  font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    cursor: default;
+    color: #777777;
 }
-
+.modal-header .modal-close {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 20px;
+    margin: -10px 0 0 0;
+    padding: 1px;
+    height: 20px;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    opacity: .4;
+    font-size: 1.1em;
+}
 .modal-body {
 	padding: 20px;
     overflow-y: auto;
+	font-size: 14px;
 }
 
 .modal-footer {
-  border-top: 1px solid #ccc;
+  border-top: 0px solid #ccc;
     padding: 8px 15px;
   line-height: 30px;
    border-bottom: 1px solid #ccc;
@@ -127,31 +144,5 @@ export default {
 .modal-leave .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
-}
-.btn-primary {
-    color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
-}
-.btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
 }
 </style>
