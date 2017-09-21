@@ -24,8 +24,13 @@ export default {
   },
   methods: {
     logout () {
-      sessionStorage.setItem('userName', '')
-      this.$router.push('/login')
+      var that = this;
+      this.$Modal.confirm('确定要删除数据吗!', function(v){
+		if(v){
+	      sessionStorage.setItem('userName', '')
+	      that.$router.push('/login')
+		}
+	  })
     }
   },
   mounted () {

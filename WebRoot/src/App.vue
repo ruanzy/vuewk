@@ -20,18 +20,6 @@ overflow-y: hidden;
 #app {
   color: #2c3e50;
 }
-
-.btn-default {
-    color: #263238;
-    background-color: #fff;
-    border-color: #ccc;
-}
-
-.btn-default:focus, .btn-default:hover {
-    color: #263238;
-    background-color: #e6e6e6;
-    border-color: #adadad;
-}
 .btn {
 	display: inline-block;
 	line-height: 1.42857143;
@@ -59,5 +47,31 @@ overflow-y: hidden;
 	background-color: #18a689;
 	border-color: #18a689;
 	color: #FFFFFF;
+}
+
+.btn-default {
+    background-color: #fff;
+    border-color: #ccc;
+	color: #333;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default:active {
+	background-color: #e6e6e6;
+}
+
+.btn-group {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+
+.btn-group>.btn {
+    position: relative;
+    float: left;
+	top: -1px;
+}
+
+.btn+.btn, .btn+.btn-group, .btn-group+.btn {
+    margin-left: 8px
 }
 </style>
