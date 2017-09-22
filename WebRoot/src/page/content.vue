@@ -4,11 +4,13 @@
           <li><router-link :to="{path: '/home'}">首页</router-link></li>
           <li>分析任务</li>
         </ul>
-        <div class="p20">
-          <p><button class="btn btn-primary" @click='add'>ALert</button></p>
-		  <p><button class="btn btn-primary" @click='add2'>Confirm</button></p>
-		  <h4 slot="header">数据列表</h4>
-		  			  <div slot="body"  style="padding: 20px 30px;">	  
+        <div class="p30">
+          <p>
+		  <button class="btn btn-primary" @click='add'><i class="fa fa-plus"></i> 增加</button>
+		  <button class="btn btn-primary" @click='add2'>Confirm</button>
+		  </p>
+		  <h3 slot="header">数据列表</h3>
+		  			  <div slot="body">	  
 				<v-table
 			   is-horizontal-resize
 			   style="width:100%"
@@ -77,8 +79,11 @@ export default {
 	  })
     },
     add () {
-	  this.$Modal.alert2('请选择一个数据!', function(){
-		var dd = document.getElementById('kkk')
+	  this.$Modal.dialog({
+		component: {
+			name: 'edittr',
+			data: {a: '哈哈哈'}
+		}
 	  })
     },
     ok () {
@@ -112,16 +117,43 @@ Vue.component('table-operation', {
   },
   methods: {
     update () {
-      this.$Modal.alert2('编辑: ' + this.index)
-      console.log(this.index)
-      console.log(this.rowData[this.field])
-      console.log(this.rowData)
+      //this.$Modal.alert2('编辑: ' + this.index)
+      //console.log(this.index)
+      //console.log(this.rowData[this.field])
+      //console.log(this.rowData)
+	  var rowData = this.rowData;
+	  console.log(rowData)
+		var options = {
+			show: true,
+			heigt: 500,
+			width: 450,
+			title: '编辑',
+			component: {
+				name: 'edittr',
+				data: rowData
+			}
+		}
+	  this.$Modal.dialog(options)
     },
     deleteRow () {
       this.$Modal.alert2('删除: ' + this.index)
       console.log(this.index)
       console.log(this.rowData[this.field])
       console.log(this.rowData)
+    }
+  }
+})
+
+Vue.component('edittr', {
+  template: `<div>
+		<p>姓名：{{data.name}}</p>
+		<p>手机号码：{{data.tel}}</p>
+		<p>爱好：{{data.hobby}}</p>
+		<p>地址：{{data.address}}</p>
+	</div>`,
+  props: {
+    data: {
+      type: Object
     }
   }
 })

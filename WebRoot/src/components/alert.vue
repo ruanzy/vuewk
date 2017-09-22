@@ -6,8 +6,9 @@
 			<a class="close modal-close" @click="options.close">×</a>
 			<h4>{{options.title}}</h4>
         </div>
-        <div class="modal-body" v-bind:style="h" v-html="options.content">
-			
+        <div class="modal-body" v-bind:style="h">
+			<component v-bind:is="options.component.name" v-bind:data="options.component.data">
+			</component>
         </div>
         <div class="modal-footer">
 		    <button class="btn btn-primary" v-for="btn in options.buttons"
@@ -84,6 +85,8 @@ export default {
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
   color: #777777;
+  box-shadow: 0 6px 14px rgba(0,0,0,.18);
+    border: 1px solid rgba(0,0,0,.26);
 }
 .modal-header {
 	padding: .7em;
@@ -102,6 +105,8 @@ export default {
     font-weight: bold;
     cursor: default;
     color: #777777;
+	color: #009a61;
+	opacity: .7;
 }
 .modal-header .modal-close {
     position: absolute;
@@ -116,11 +121,14 @@ export default {
     font-weight: bold;
     opacity: .4;
     font-size: 1.1em;
+	display: block;
 }
 .modal-body {
-	padding: 20px;
+	padding: 5px 20px;
     overflow-y: auto;
 	font-size: 14px;
+	color: #000;
+	opacity: .7;
 }
 
 .modal-footer {

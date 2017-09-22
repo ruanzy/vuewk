@@ -55,5 +55,13 @@ Vue.prototype.$Modal = {
 		}
 		var dd = new div({propsData: {options : options}}).$mount()
 		document.body.appendChild(dd.$el)
+	},
+	dialog (options){
+		var div = Vue.extend(Alert)
+		options['close'] = function(){
+			document.body.removeChild(dd.$el)
+		}
+		var dd = new div({propsData: {options : options}}).$mount()
+		document.body.appendChild(dd.$el)
 	}
 };
