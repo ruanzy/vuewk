@@ -7,8 +7,10 @@
 			<h4>{{options.title}}</h4>
         </div>
         <div class="modal-body" v-bind:style="h">
-			<component v-bind:is="options.component.name" v-bind:data="options.component.data">
-			</component>
+          <template v-if="typeof options.component === 'object' && options.component.name.length > 0">
+            <component v-bind:is="options.component.name" v-bind:data="options.component.data"></component>
+          </template>
+          <template v-else><div v-html="options.content"></div></template>
         </div>
         <div class="modal-footer">
 		    <button class="btn btn-primary" v-for="btn in options.buttons"
@@ -85,8 +87,6 @@ export default {
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
   color: #777777;
-  box-shadow: 0 6px 14px rgba(0,0,0,.18);
-    border: 1px solid rgba(0,0,0,.26);
 }
 .modal-header {
 	padding: .7em;
@@ -110,6 +110,7 @@ export default {
 }
 .modal-header .modal-close {
     position: absolute;
+    z-index: 200;
     right: 0;
     top: 50%;
     width: 20px;
@@ -124,7 +125,7 @@ export default {
 	display: block;
 }
 .modal-body {
-	padding: 5px 20px;
+	padding: 20px 30px;
     overflow-y: auto;
 	font-size: 14px;
 	color: #000;

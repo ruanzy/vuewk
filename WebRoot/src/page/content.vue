@@ -6,28 +6,24 @@
         </ul>
         <div class="p30">
           <p>
-		  <button class="btn btn-primary" @click='add'><i class="fa fa-plus"></i> 增加</button>
-		  <button class="btn btn-primary" @click='add2'>Confirm</button>
-		  </p>
-		  <h3 slot="header">数据列表</h3>
-		  			  <div slot="body">	  
-				<v-table
-			   is-horizontal-resize
-			   style="width:100%"
-			   :columns="tableConfig.columns"
-			   :table-data="tableConfig.tableData"
-			   :on-row-click="tableConfig.onRowClick"
-			   :show-vertical-border="true"
-			  row-hover-color="#eee"
-			  row-click-color="#edf7ff"
-			  :row-mouse-enter="rowMouseEnter"
-			  :row-mouse-leave="rowMouseLeave"
-			  ></v-table>
-			  <p>
+		      <button class="btn btn-primary" @click='add'><i class="fa fa-plus"></i> 增加</button>
+		      </p> 
+          <v-table
+           is-horizontal-resize
+           style="width:100%"
+           :columns="tableConfig.columns"
+           :table-data="tableConfig.tableData"
+           :on-row-click="tableConfig.onRowClick"
+           :show-vertical-border="true"
+          row-hover-color="#eee"
+          row-click-color="#edf7ff"
+          :row-mouse-enter="rowMouseEnter"
+          :row-mouse-leave="rowMouseLeave"
+          ></v-table>
+			    <p>
 				  <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="50" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']"></v-pagination>
-			  </p>
-			  </div>
-		</div>
+			    </p>
+		    </div>
     </div>
 </template>
 
@@ -38,14 +34,6 @@ import '../components/box.js'
 export default {
   data () {
     return {
-      showAlert: false,
-      showModal: false,
-	  options: {
-		heigt: 500,
-		width: 350,
-		title: 'asdasd',
-		content: 'asdasd'
-	  },
       tableConfig: {
         tableData: mockData,
         columns: [
@@ -67,34 +55,36 @@ export default {
     this.tableConfig.tableData = mockData
   },
   methods: {
-    add2 () {
-      //var o = {'name': '韩伟', 'img': '1.jpg', 'gender': '女', 'nickname': '韩', 'birthday': '1993-12-7', 'height': '166', 'email': 'han@gmail.com', 'tel': '177*****2222', 'hobby': '钢琴、书法、唱歌', 'address': '上海市浦东新区东方路818号建行一楼', 'job': '码农'}
-      //this.tableConfig.tableData.push(o)
-	  this.$Modal.confirm('确定要删除数据吗!', function(v){
-		if(v){
-			alert('ok')
-		}else{
-			alert('no')
-		}
-	  })
-    },
     add () {
-	  this.$Modal.dialog({
-		component: {
-			name: 'edittr',
-			data: {a: '哈哈哈'}
-		}
-	  })
-    },
-    ok () {
-      alert('asdd')
-      this.showModal = false
-    },
-    close () {
-      this.showModal = false
-    },
-	alertCallback () {
-      this.showAlert = false
+      var $Modal = this.$Modal;
+      var tableData = this.tableConfig.tableData;
+      var rowData = {};
+      var options = {
+        show: true,
+        heigt: 500,
+        width: 450,
+        title: '增加',
+        component: {
+          name: 'edittr',
+          data: rowData
+        },
+        buttons: [
+          {
+            text: '确定',
+            action: function(){
+              tableData.push(rowData)
+              $Modal.close(d)
+            }
+          },
+          {
+            text: '取消',
+            action: function(){
+              $Modal.close(d)
+            }
+          }
+        ]
+      }
+      var d = $Modal.dialog(options)
     }
   }
 }
@@ -117,40 +107,65 @@ Vue.component('table-operation', {
   },
   methods: {
     update () {
-      //this.$Modal.alert2('编辑: ' + this.index)
-      //console.log(this.index)
-      //console.log(this.rowData[this.field])
-      //console.log(this.rowData)
-	  var rowData = this.rowData;
-	  console.log(rowData)
-		var options = {
-			show: true,
-			heigt: 500,
-			width: 450,
-			title: '编辑',
-			component: {
-				name: 'edittr',
-				data: rowData
-			}
-		}
-	  this.$Modal.dialog(options)
+      var rowData = this.rowData;
+      var $Modal = this.$Modal;
+      var options = {
+        show: true,
+        heigt: 500,
+        width: 450,
+        title: '编辑',
+        component: {
+          name: 'edittr',
+          data: rowData
+        },
+        buttons: [
+          {
+            text: '确定',
+            action: function(){
+              
+              alert(rowData.name);
+            }
+          },
+          {
+            text: '取消',
+            action: function(){
+              $Modal.close(d)
+            }
+          }
+        ]
+      }
+      var d = $Modal.dialog(options)
     },
     deleteRow () {
-      this.$Modal.alert2('删除: ' + this.index)
-      console.log(this.index)
-      console.log(this.rowData[this.field])
-      console.log(this.rowData)
+      var rowData = this.rowData;
+      this.$Modal.confirm('确定要删除数据吗?', function(v){
+        if(v){
+          alert(rowData.name)
+        }
+      })
     }
   }
 })
 
 Vue.component('edittr', {
-  template: `<div>
-		<p>姓名：{{data.name}}</p>
-		<p>手机号码：{{data.tel}}</p>
-		<p>爱好：{{data.hobby}}</p>
-		<p>地址：{{data.address}}</p>
-	</div>`,
+  template: `<form id="form" class="form-horizontal">
+    <div class="form-group">
+      <label for="name" class="form-label">姓名：</label> 
+      <div class="form-input-block"><input type="text" class="form-input" v-model="data.name" /></div>
+    </div>
+    <div class="form-group">
+      <label for="name" class="form-label">手机号码：</label> 
+      <div class="form-input-block"><input type="text" class="form-input" v-model="data.tel" /></div>
+    </div>
+    <div class="form-group">
+      <label for="name" class="form-label">爱好：</label> 
+      <div class="form-input-block"><input type="text" class="form-input" v-model="data.hobby" /></div>
+    </div>
+    <div class="form-group">
+      <label for="name" class="form-label">地址：</label> 
+      <div class="form-input-block"><input type="text" class="form-input" v-model="data.address" /></div>
+    </div>
+	</form>`,
   props: {
     data: {
       type: Object

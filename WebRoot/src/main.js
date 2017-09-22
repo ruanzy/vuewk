@@ -1,10 +1,13 @@
 import Vue from 'vue'
+import VueResource from 'vue-resource'
 import App from './App.vue'
 import router from './router.js'
 import 'vue-easytable/libs/themes-base/index.css'
 import './assets/styles.css'
 import IEcharts from 'vue-echarts-v3/src/full.vue'
 import {VTable, VPagination} from 'vue-easytable'
+Vue.use(VueResource);
+Vue.http.options.emulateHTTP = true;
 Vue.component(VTable.name, VTable)
 Vue.component(VPagination.name, VPagination)
 Vue.component('IEcharts', IEcharts)

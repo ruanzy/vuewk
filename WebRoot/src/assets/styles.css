@@ -10,7 +10,7 @@
 }
 .breadcrumb > li + li:before {
     color: #222;
-    content: "/";
+    content: "/ ";
     padding: 0 2px;
 }
 ul {
@@ -27,4 +27,42 @@ a {
 }
 .p30{
 	padding: 20px 30px;
+}
+.form-label {
+    float: left;
+    display: block;
+    padding: 6px 0;
+    width: 80px;
+    line-height: 1.25;
+    font-weight: 500;
+    color: #37474f;
+    text-align: left;
+	font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+.form-horizontal .form-input {
+    font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+.form-input {
+    width: 100%;
+    padding: .4rem .75rem;
+    line-height: 1.25;
+    background-color: #fff;
+    background-image: none;
+    font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    outline: none;
+}
+.form-input-block {
+    margin-left: 80px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.text-red {
+    color: #ff0000 !important;
+}
+input[type=text]:focus, input[type=password]:focus {
+    border: 1px solid #179d82;
 }

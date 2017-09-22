@@ -32,7 +32,7 @@ Vue.prototype.$Modal = {
 		var dd = new div({propsData: {options : options}}).$mount()
 		document.body.appendChild(dd.$el)
 	},
-	alert2 (msg, callback){
+	alert (msg, callback){
 		var div = Vue.extend(Alert)
 		var options = {
 			show: true,
@@ -63,5 +63,9 @@ Vue.prototype.$Modal = {
 		}
 		var dd = new div({propsData: {options : options}}).$mount()
 		document.body.appendChild(dd.$el)
+		return dd;
+	},
+	close (d){
+		document.body.removeChild(d.$el)
 	}
 };
