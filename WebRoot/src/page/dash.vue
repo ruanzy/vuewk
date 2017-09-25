@@ -64,7 +64,7 @@ import {dateFormat} from '../components/date.js';
               axisLabel : {
                 formatter: function(value, index)
                 {
-                  return 50 * index + "M";
+                  return 5 * index + "M";
                 }
               },
               splitArea : {show : true},
@@ -100,11 +100,11 @@ import {dateFormat} from '../components/date.js';
         const that = this;
         var url = "http://localhost:8089/monitor/memery";
         var d = new Date();
-        this.$http.post(url).then(function(response){
+        this.$http.post(url, {point: 1}).then(function(response){
             var data = response.data;
-            var hmucommitted = data.hmucommitted;
-            var hmuused = data.hmuused;
-            var hmumax = data.hmumax;
+            var hmucommitted = data.hmucommitted[0];
+            var hmuused = data.hmuused[0];
+            var hmumax = data.hmumax[0];
             var opt = that.chart.getOption();
             var str = dateFormat(d, 'HH:mm:ss');
             that.hmumax = hmumax;
@@ -127,7 +127,7 @@ import {dateFormat} from '../components/date.js';
     },
     mounted () {
         const that = this;
-        var url = "http://localhost:8089/monitor/memeryHistory";
+        var url = "http://localhost:8089/monitor/memery";
         this.$http.post(url, {point: 200}).then(function(response){
             var data = response.data;
             var hmucommitted = data.hmucommitted;
