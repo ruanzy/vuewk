@@ -5,6 +5,7 @@ import router from './router.js'
 import 'vue-easytable/libs/themes-base/index.css'
 import './assets/styles.css'
 import IEcharts from 'vue-echarts-v3/src/full.vue'
+import 'vue-echarts-v3/node_modules/echarts/theme/macarons.js'
 import {VTable, VPagination} from 'vue-easytable'
 Vue.use(VueResource);
 Vue.http.options.emulateHTTP = true;
