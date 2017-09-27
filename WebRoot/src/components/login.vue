@@ -19,7 +19,7 @@ export default {
     login () {
       if (this.username && this.password) {
         sessionStorage.setItem('userName', this.username)
-        this.$router.push('/dash')
+        this.$router.push('/home')
       }
     }
   }
