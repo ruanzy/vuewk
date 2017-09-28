@@ -5,7 +5,7 @@
       <li><router-link :to="{path: '/dash'}"><i class="fa fa-sitemap"></i> Haddop监控</router-link></li>
       <li><a class="nav-link" href="#" title="Spark监控"><i class="fa fa-desktop"></i> Spark监控</a></li>
       <li><router-link :to="{path: '/content'}"><i class="fa fa-task"></i> 分析任务</router-link></li>
-      <li><a class="nav-link" href="#" title="文件管理"><i class="fa fa-file"></i> 文件管理</a></li>
+      <li><router-link :to="{path: '/files'}"><i class="fa fa-file"></i> 文件管理</router-link></li>
     </ul>
     <ul id="op">
       <li>{{userName}}, 您好!</li>

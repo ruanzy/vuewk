@@ -4,6 +4,7 @@ import Index from './components/index.vue'
 import Login from './components/login.vue'
 import Home from './page/home.vue'
 import Dash from './page/dash.vue'
+import Files from './page/file.vue'
 import Content from './page/content.vue'
 
 Vue.use(Router)
@@ -24,6 +25,10 @@ export default new Router({
         {
           path: '/home',
           component: Home
+        },
+        {
+          path: '/files',
+          component: Files
         }
       ]
     },
