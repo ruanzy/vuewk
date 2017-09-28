@@ -13,7 +13,7 @@
             </div>
           </td>
           <td>
-            <center><table width="75%" align="center"><tr><td></td></tr></table></center>
+            <center><table width="75%" align="center"><tr><td>CPU使用率：{{cpu}}%</td></tr></table></center>
             <div style="height: 350px; width: 600px;">
               <IEcharts :option="line3" @ready="onReady3" theme="macarons"></IEcharts>
             </div>
@@ -40,12 +40,13 @@ import {dateFormat} from '../components/date.js';
     data () {
       const that = this
       return {
-        timer: null,
+        timer1: null,
         timer2: null,
         timer3: null,
         hmucommitted: null,
         hmuused: null,
         hmumax: null,
+        cpu: null,
         thread_started: null,
         thread_daemon: null,
         thread_active: null,
@@ -295,12 +296,13 @@ import {dateFormat} from '../components/date.js';
         var d = new Date();
         this.$http.post(url, {point: 1}).then(function(response){
             var data = response.data[0];
+            that.cpu = (data||0).toFixed(2);;
             var opt = that.chart3.getOption();
             var str = dateFormat(d, 'HH:mm:ss');
             opt.xAxis[0].data.shift();
             opt.series[0].data.shift();
             opt.xAxis[0].data.push(str);
-            opt.series[0].data.push(data|0);
+            opt.series[0].data.push((data||0).toFixed(2));
             that.chart3.setOption(opt);
         }).catch(function(response) {
           console.log(response)
@@ -346,7 +348,7 @@ import {dateFormat} from '../components/date.js';
                 data: values2
               }]
             });
-            that.timer = setInterval(that.update, 5000);
+            that.timer1 = setInterval(that.update, 5000);
         }).catch(function(response) {
           console.log(response)
         });
@@ -392,6 +394,8 @@ import {dateFormat} from '../components/date.js';
         var url3 = "http://localhost:8089/monitor/cpu";
         this.$http.post(url3, {point: 200}).then(function(response){
             var data = response.data;
+            var size = data.length;
+            that.cpu = (data[size - 1]||0).toFixed(2);
             var timestamps = [];
             var values1 = [];
             var size = data.length;
@@ -400,7 +404,7 @@ import {dateFormat} from '../components/date.js';
             for (var i = 0; i < size; i++) {
               var d = new Date(t);
               var str = dateFormat(d, 'HH:mm:ss');
-              var v = data[i]|0;
+              var v = (data[i]||0).toFixed(2);
               timestamps.push(str);
               values1.push(v);
               t += 5 * 1000;
