@@ -59,6 +59,9 @@ export default {
     bus.$on('del', function (id) { 
         that.del(id);
     });
+    bus.$on('update', function (data) { 
+        that.update(data);
+    });
     that.getTableData();
   },
   methods: {
@@ -66,7 +69,7 @@ export default {
         const that = this;
         var page = that.tableConfig.page;
         var pagesize = that.tableConfig.pageSize;
-        var url = "http://localhost:8089/user/list";
+        var url = "user/list";
         var params = {page: page, pagesize: pagesize};
         this.$http.post(url, params).then(function(response){
             var data = response.data;
@@ -115,7 +118,16 @@ export default {
     },
     save (data) {
         const that = this;
-        var url = "http://localhost:8089/user/add";
+        var url = "user/add";
+        this.$http.post(url, data).then(function(response){
+          that.getTableData();
+        }).catch(function(response) {
+          console.log(response)
+        });
+    },
+    update (data) {
+        const that = this;
+        var url = "user/update";
         this.$http.post(url, data).then(function(response){
           that.getTableData();
         }).catch(function(response) {
@@ -124,7 +136,7 @@ export default {
     },
     del (username) {
         const that = this;
-        var url = "http://localhost:8089/user/del";
+        var url = "user/del";
         this.$http.post(url, {username: username}).then(function(response){
           that.getTableData();
         }).catch(function(response) {
@@ -177,8 +189,8 @@ Vue.component('mytable-operation', {
           {
             text: '确定',
             action: function(){
-              
-              alert(rowData.username);
+              bus.$emit('update', rowData);
+              $Modal.close(d)
             }
           },
           {

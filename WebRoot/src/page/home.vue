@@ -241,7 +241,7 @@ import {dateFormat} from '../components/date.js';
       },
       update () {
         const that = this;
-        var url = "http://localhost:8089/monitor/memery";
+        var url = "monitor/memery";
         var d = new Date();
         var MB = 1024 * 1024;
         this.$http.post(url, {point: 1}).then(function(response){
@@ -267,7 +267,7 @@ import {dateFormat} from '../components/date.js';
       },
       update2 () {
         const that = this;
-        var url = "http://localhost:8089/monitor/thread";
+        var url = "monitor/thread";
         var d = new Date();
         this.$http.post(url, {point: 1}).then(function(response){
             var data = response.data;
@@ -292,7 +292,7 @@ import {dateFormat} from '../components/date.js';
       },
       update3 () {
         const that = this;
-        var url = "http://localhost:8089/monitor/cpu";
+        var url = "monitor/cpu";
         var d = new Date();
         this.$http.post(url, {point: 1}).then(function(response){
             var data = response.data[0];
@@ -314,7 +314,7 @@ import {dateFormat} from '../components/date.js';
     },
     mounted () {
         const that = this;
-        var url = "http://localhost:8089/monitor/memery";
+        var url = "monitor/memery";
         var MB = 1024 * 1024;
         this.$http.post(url, {point: 200}).then(function(response){
             var data = response.data;
@@ -353,7 +353,7 @@ import {dateFormat} from '../components/date.js';
           console.log(response)
         });
 
-        var url2 = "http://localhost:8089/monitor/thread";
+        var url2 = "monitor/thread";
         this.$http.post(url2, {point: 200}).then(function(response){
             var data = response.data;
             var thread_daemon = data.thread_daemon;
@@ -391,7 +391,7 @@ import {dateFormat} from '../components/date.js';
           console.log(response)
         });
 
-        var url3 = "http://localhost:8089/monitor/cpu";
+        var url3 = "monitor/cpu";
         this.$http.post(url3, {point: 200}).then(function(response){
             var data = response.data;
             var size = data.length;

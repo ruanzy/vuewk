@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import md5 from 'js-md5';
 export default {
   data () {
     return {
@@ -17,10 +18,24 @@ export default {
   },
   methods: {
     login () {
-      if (this.username && this.password) {
-        sessionStorage.setItem('userName', this.username)
-        this.$router.push('/home')
-      }
+      const that = this;
+      var url = "user/login";
+      var username = this.username;
+      var password = this.password;
+      var _password = md5(username + '_' + password);
+      var params = {username: username, password: _password};
+      this.$http.post(url, params).then(function(response){
+          var data = response.data;
+          if (data.code == 0) {
+            sessionStorage.setItem('token', data.token)
+            sessionStorage.setItem('userName', data.username)
+            this.$router.push('/home')
+          }else if (data.code == 10001) {
+            that.$Modal.alert('用户名或密码错误!'); 
+          }
+      }).catch(function(response) {
+        console.log(response)
+      });
     }
   }
 
