@@ -3,7 +3,7 @@
         <ul class="breadcrumb">
           <li><router-link :to="{path: '/home'}">首页</router-link></li>
           <li>系统管理</li>
-          <li>用户管理</li>
+          <li>角色管理</li>
         </ul>
         <div class="p30">
           <p>
@@ -18,6 +18,7 @@
            :show-vertical-border="true"
           row-hover-color="#eee"
           row-click-color="#edf7ff"
+          title-bg-color="#eef1f6"
           :row-mouse-enter="rowMouseEnter"
           :row-mouse-leave="rowMouseLeave"
           ></v-table>
@@ -41,13 +42,9 @@ export default {
         total: 0,
         tableData: [],
         columns: [
-          {field: 'username', title: '用户名', width: 100, titleAlign: 'center', columnAlign: 'center'},
-          {field: 'phone', title: '手机号码', width: 150, titleAlign: 'center', columnAlign: 'center'},
-          {field: 'email', title: 'E-mail', width: 200, titleAlign: 'center', columnAlign: 'center'},
-          {field: 'regtime', title: '注册时间', width: 200, titleAlign: 'center', columnAlign: 'left', isResize: true},
-          {field: 'custome-adv', title: '操作', width: 180, titleAlign: 'center', columnAlign: 'center', componentName: 'mytable-operation'}
+          {field: 'name', title: '角色名', width: 200, titleAlign: 'center', columnAlign: 'center'},
+          {field: 'custome-adv', title: '操作', width: 500, isResize:true, titleAlign: 'center', columnAlign: 'center', componentName: 'roletable-operation'}
         ],
-        titleBgColor: '#e1e1e1',
         onRowClick (rowIndex, rowData) {
           console.log(rowIndex)
           console.log(rowData)
@@ -70,7 +67,7 @@ export default {
         const that = this;
         var page = that.tableConfig.page;
         var pagesize = that.tableConfig.pageSize;
-        var url = "user/list";
+        var url = "role/list";
         var params = {page: page, pagesize: pagesize};
         this.$http.post(url, params).then(function(response){
             var data = response.data;
@@ -84,11 +81,7 @@ export default {
       const that = this;
       var $Modal = that.$Modal;
       var rowData = {
-        username: '',
-        password: '111111',
-        deptid: 1,
-        phone: '222222',
-        email: 'rzy@163.com'
+        rolename: ''
       };
       var options = {
         show: true,
@@ -96,7 +89,7 @@ export default {
         width: 450,
         title: '增加',
         component: {
-          name: 'myaddtr',
+          name: 'roleaddtr',
           data: rowData
         },
         buttons: [
@@ -119,7 +112,7 @@ export default {
     },
     save (data) {
         const that = this;
-        var url = "user/add";
+        var url = "role/add";
         this.$http.post(url, data).then(function(response){
           that.getTableData();
         }).catch(function(response) {
@@ -135,10 +128,10 @@ export default {
           console.log(response)
         });
     },
-    del (username) {
+    del (id) {
         const that = this;
-        var url = "user/del";
-        this.$http.post(url, {username: username}).then(function(response){
+        var url = "role/del";
+        this.$http.post(url, {id: id}).then(function(response){
           that.getTableData();
         }).catch(function(response) {
           console.log(response)
@@ -157,10 +150,10 @@ export default {
   }
 }
 // 自定义列组件
-Vue.component('mytable-operation', {
+Vue.component('roletable-operation', {
   template: `<span>
-    <a href="" @click.stop.prevent="update(rowData,index)">编辑</a>&nbsp;
-    <a href="" @click.stop.prevent="deleteRow(rowData,index)">删除</a>
+    <a href="" @click.stop.prevent="setPermission(rowData,index)">设置权限</a>&nbsp;
+    <a href="" @click.stop.prevent="deleteRole(rowData,index)">删除</a>
     </span>`,
   props: {
     rowData: {
@@ -174,16 +167,16 @@ Vue.component('mytable-operation', {
     }
   },
   methods: {
-    update () {
+    setPermission () {
       var rowData = this.rowData;
       var $Modal = this.$Modal;
       var options = {
         show: true,
         heigt: 500,
         width: 450,
-        title: '编辑',
+        title: '设置权限',
         component: {
-          name: 'myaddtr',
+          name: 'loadpermissionCmp',
           data: rowData
         },
         buttons: [
@@ -204,30 +197,35 @@ Vue.component('mytable-operation', {
       }
       var d = $Modal.dialog(options)
     },
-    deleteRow () {
+    deleteRole () {
       var rowData = this.rowData;
       this.$Modal.confirm('确定要删除数据吗?', function(v){
         if(v){
-          bus.$emit('del', rowData.username);
+          bus.$emit('del', rowData.id);
         }
       })
     }
   }
 })
 
-Vue.component('myaddtr', {
+Vue.component('roleaddtr', {
   template: `<form id="form" class="form-horizontal">
     <div class="form-group">
-      <label for="username" class="form-label">用户名：</label> 
-      <div class="form-input-block"><input type="text" class="form-input" v-model="data.username" /></div>
+      <label for="rolename" class="form-label">角色名：</label> 
+      <div class="form-input-block"><input type="text" class="form-input" v-model="data.rolename" /></div>
     </div>
+	</form>`,
+  props: {
+    data: {
+      type: Object
+    }
+  }
+});
+Vue.component('loadpermissionCmp', {
+  template: `<form id="form" class="form-horizontal">
     <div class="form-group">
-      <label for="phone" class="form-label">手机号码：</label> 
-      <div class="form-input-block"><input type="text" class="form-input" v-model="data.phone" /></div>
-    </div>
-    <div class="form-group">
-      <label for="email" class="form-label">E-mail：</label> 
-      <div class="form-input-block"><input type="text" class="form-input" v-model="data.email" /></div>
+      <label for="rolename" class="form-label">角色名：</label> 
+      <div class="form-input-block"><input type="text" class="form-input" v-model="data.rolename" /></div>
     </div>
 	</form>`,
   props: {

@@ -4,8 +4,12 @@ import Index from './components/index.vue'
 import Login from './components/login.vue'
 import Home from './page/home.vue'
 import Dash from './page/dash.vue'
-import Files from './page/file.vue'
-import Content from './page/content.vue'
+import User from './page/user.vue'
+import Role from './page/role.vue'
+import File from './page/file.vue'
+import Hadoop from './page/hadoop.vue'
+import Spark from './page/spark.vue'
+import Analyse from './page/analyse.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -15,20 +19,32 @@ export default new Router({
       component: Index,
       children: [
         {
-          path: '/dash',
-          component: Dash
+          path: '/user',
+          component: User
+        },
+				{
+          path: '/role',
+          component: Role
         },
         {
-          path: '/content',
-          component: Content
+          path: '/hadoop',
+          component: Hadoop
+        },
+        {
+          path: '/spark',
+          component: Spark
+        },
+        {
+          path: '/analyse',
+          component: Analyse
         },
         {
           path: '/home',
           component: Home
         },
         {
-          path: '/files',
-          component: Files
+          path: '/file',
+          component: File
         }
       ]
     },

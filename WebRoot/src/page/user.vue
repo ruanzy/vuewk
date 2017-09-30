@@ -18,6 +18,7 @@
            :show-vertical-border="true"
           row-hover-color="#eee"
           row-click-color="#edf7ff"
+          title-bg-color="#eef1f6"
           :row-mouse-enter="rowMouseEnter"
           :row-mouse-leave="rowMouseLeave"
           ></v-table>

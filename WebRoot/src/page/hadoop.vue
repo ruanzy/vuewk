@@ -2,7 +2,7 @@
     <div>
         <ul class="breadcrumb">
           <li><router-link :to="{path: '/home'}">首页</router-link></li>
-          <li>文件管理</li>
+          <li>Haddop监控</li>
         </ul>
         <div class="p30">
           {{title}}
@@ -14,7 +14,7 @@
 export default {
   data () {
     return {
-      title: '文件管理'
+      title: 'Haddop监控'
     }
   }
 }
